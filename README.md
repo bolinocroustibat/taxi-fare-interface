@@ -6,7 +6,7 @@
 
 The interface uses 4 APIs:
 
-- The NY Taxi Fare prediction API
+- The homemade [NY Taxi Fare prediction API](https://github.com/bolinocroustibat/taxi-fare-api)
 - The [Algolia Places](https://community.algolia.com/places/) API for address autocomplete
 - The [MapBox Maps API](https://docs.mapbox.com/mapbox-gl-js/api/) to display a map
 - The [MapBox Directions API](https://docs.mapbox.com/api/navigation/) to display the route on the map
