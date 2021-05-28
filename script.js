@@ -1,7 +1,8 @@
 const algoliaPlacesApiAppId = 'plU4N8HG6QWK';
 const algoliaPlacesApiKey = '1131438afb49f60a48ed468c5af189b8';
 const mapboxApiToken = 'pk.eyJ1Ijoia3Jva3JvYiIsImEiOiJja2YzcmcyNDkwNXVpMnRtZGwxb2MzNWtvIn0.69leM_6Roh26Ju7Lqb2pwQ';
-const taxiFareApiUrl = 'http://localhost:8000/predict';
+// const taxiFareApiUrl = 'http://localhost:8000/predict'; // local
+const taxiFareApiUrl = 'https://taxifare-api-dmdkbp3odq-ew.a.run.app/predict'; // prod
 
 const displayMap = (start, stop) => {
   mapboxgl.accessToken = mapboxApiToken;
@@ -14,7 +15,6 @@ const displayMap = (start, stop) => {
 
   function getRoute(end) {
     var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
-
     var req = new XMLHttpRequest();
     req.open('GET', url, true);
     req.onload = function() {
@@ -181,6 +181,7 @@ const predict = () => {
   form = document.querySelector('form');
   if (form) {
     form.addEventListener('submit', (e) => {
+      console.log("asking urls")
       e.preventDefault();
       const data = {
         "pickup_latitude": parseFloat(document.getElementById('pickup_latitude').value) || 40.747,
@@ -190,6 +191,7 @@ const predict = () => {
         "passenger_count": parseInt(document.getElementById('passenger_count').value) || 2,
         "pickup_datetime": document.getElementById('pickup_datetime').value
       };
+      console.log(data)
       let query = []
       Object.keys(data).forEach((param) => {
         query.push(`${param}=${data[param]}`)
@@ -206,7 +208,7 @@ const predict = () => {
       .then(data => {
         document.getElementById('fare').classList.remove('d-none');
         const fareResult = document.getElementById('predicted-fare');
-        const fare = Math.round(data['prediction'] * 100) / 100
+        const fare = Math.round(data['result'] * 100) / 100
         fareResult.innerText = `$${fare}`;
       })
       .catch((error) => {
